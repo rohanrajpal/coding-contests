@@ -12,7 +12,7 @@
 #define mp make_pair
 #define pb push_back
 #define fast ios_base::sync_with_stdio(false),cin.tie(NULL)
-// #define int long long
+#define int long long
  
 #define all(v) v.begin(),v.end()
 #define scd second
@@ -54,25 +54,44 @@ signed main(){
                 steps++;
                 buffer.insert(num);
                 inventory.pop_front();
+                // cout<<"Going: "<<num<<"\n";
             }
-            cout<<"Reached\n";
+            inventory.pop_front();
+            thelist.pop_front();
+            // cout<<"Reached eof while\n";
             // set<int>::iterator itr;
             vector<int> finalorder;
-            for (int i = buffer.size()-1; i >= 0; i--)
+            //first put the required elements
+            for (int i = 0; i < min(buffer.size(),thelist.size()); i++)
             {
                 int elem = thelist.at(i);
                 if(buffer.find(elem) != buffer.end()){
                     finalorder.push_back(elem);
+                    // cout<<"adding pr: "<<elem<<"\n";
                     buffer.erase(buffer.find(elem));
                 }
             }
-            for (int i = 0; i < finalorder.size(); i++)
-            {
-                inventory.push_front(finalorder[i]);
-            }
             
+            // cout<<"eof priority\n";
+
+            for (auto elem : buffer)
+            {
+                // cout<<elem<<"\n";
+                finalorder.push_back(elem);
+            }
+            // cout<<"giving order\n";
+            // for (int i = finalorder.size()-1; i >= 0 ; i--)
+            while (!finalorder.empty())
+            {
+                // cout<<finalorder[i]<<" ";
+                inventory.push_front(finalorder.back());
+                finalorder.pop_back();
+            }
+            // cout<<"\n";
             time += 2 * steps +1;
+            // cout<<time<<"\n";
         }
         cout<<time<<"\n";
     }
+    return 0;
 }
