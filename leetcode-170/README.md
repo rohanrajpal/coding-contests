@@ -16,4 +16,4 @@
 1312. Minimum Insertion Steps to Make a String Palindrome
 - focus on not actually mutating objects until required, just focus on getting the steps here
 - pass read only things by reference(to avoid Out of memory error)
-
+- yet to do the LCS solution
