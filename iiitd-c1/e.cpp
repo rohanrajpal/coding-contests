@@ -26,7 +26,7 @@
 using namespace std;
 
 int primecheck(int num){
-    for(int i=2;i<=num/2;i++){
+    for(int i=2;i<=sqrt(num);i++){
         if(num % i == 0) return -1;
     }
     return 1;
@@ -37,19 +37,7 @@ signed main(){
     // prime check in O-1 :done
     // good prime prefix for whole 1 to 10e5 :done
     // do queries in O-1 : done
-    int q,maxnum=0;
-    cin>>q;
-    vector<pair<int,int>> queries(q);
-    for (int i = 0; i < q; i++)
-    {
-        int li,ri;cin>>li>>ri;
-        queries[i] = mp(li,ri);
-        if(ri>maxnum) maxnum = ri;
-    }
-    
-    // cout<<"maxnum: "<<maxnum<<"\n";
-    
-    int n=maxnum+1,cntprime=0;
+    int n=100000+1,cntprime=0;
     vector<int> prime(n,0);
     vector<int> prefix(n,0);
     
@@ -62,18 +50,16 @@ signed main(){
     for(int i=2;i<100;i++){
         prime[i] = primecheck(i);
         // cout<<i<<" ";
-        if(prime[i] == 1){
-            int curmult = 2,curprod = curmult*i;
-            while(curprod <= n){
-                prime[curprod] = -1;
-                curmult++;
-                curprod = curmult*i;
-            }
+        int curmult = 2,curprod = curmult*i;
+        while(curprod <= 10e3){
+            prime[curprod] = -1;
+            curmult++;
+            curprod = curmult*i;
         }
     }
     // cout<<"end sieve\n";
     for(int i=2;i<n;i++){
-        // cout<<i<<" "<<prime[i]<<"\n";
+        // cout<<i<<"\n";
         if(prime[i]) continue;
         prime[i] = primecheck(i);
         // cout<<prime[i]<<" ";
@@ -89,13 +75,12 @@ signed main(){
         }
         prefix[i] = cntprime;
     }
-    
+    int q,li,ri;
+    cin>>q;
     for(int i = 0; i < q; i++)
     {
-        int li,ri;
+        cin>>li>>ri;
         
-        li = queries[i].first,ri = queries[i].second;
-        // cout<<li<<" "<<ri<<"\n";
         // cout<<"li-1:"<<prefix[li-1]<<" ri:"<<prefix[ri]<<" ";
         cout<<prefix[ri] - prefix[li-1]<<"\n";
     }
